@@ -1,0 +1,49 @@
+models_path = [
+    '2_models/model_2_600_epochs.json',
+    '2_models/model_3_450_epochs.json',
+    '2_models/model_3_600_epochs.json',
+    '2_models/model_500_epochs.json',
+    '2_models/model_600_epochs.json', 
+    '2_models/model_750_epochs.json',
+    '2_models/model_1000_epochs.json'
+]
+
+images_path = [
+    '1_images/0.png',
+    '1_images/1.png',
+    '1_images/2.png',
+    '1_images/3.png',
+    '1_images/4.png',
+    '1_images/5.png',
+    '1_images/6.png',
+    '1_images/7.png',
+    '1_images/8.png',
+    '1_images/9.png',
+]
+
+
+def load_and_preprocess_image(image_path):
+    # Carica l'immagine in scala di grigi e ridimensiona a 28x28 pixel
+    img = preprocessing.image.load_img(image_path, color_mode='grayscale', target_size=(28, 28))
+    # Converti l'immagine in un array
+    img_array = preprocessing.image.img_to_array(img)
+    # Inverti i colori dell'immagine (MNIST ha lo sfondo nero e il testo bianco)
+    img_array = 255 - img_array
+    # Normalizza i valori dei pixel a [0, 1]
+    img_array = img_array / 255.0
+    # Riformatta l'array in un vettore di dimensione (784,)
+    img_array = img_array.reshape(1, -1)
+
+    return img_array
+
+# Visualizza alcune predizioni del modello caricato
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10, 5))
+for i in range(10):
+    plt.subplot(2, 5, i+1)
+    plt.imshow(images_reshaped[i].reshape(28, 28), cmap='gray')
+    plt.title(f"Prediction: {predictions[i]}")
+    plt.axis('off')
+plt.tight_layout()
+plt.show()
+plt.subplot(2, 5, i+1)
